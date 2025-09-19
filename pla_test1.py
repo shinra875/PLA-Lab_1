@@ -19,23 +19,53 @@ def alphabet_index(text):
     return indexed_text
 
 
-def devide4x4(letters):
-    msg = alphabet_index(letters)
+def np_to_int(multiplication):
+    return [int(i%35) for i in multiplication]
+
+
+def encr2(messages_by_2):
+    K2x2_matrix = np.array(test_random2x2)
+    encrypted_by_2 = []
     
+    for msg in messages_by_2:
+        P_matrix = np.array(msg)
+        multiplication = np.dot(K2x2_matrix, P_matrix)
+        encrypted_by_2.append(np_to_int(multiplication))
+    return encrypted_by_2
+
+
+def encr3(messages_by_3):
+    K3x3_matrix = np.array(test_random3x3)
+    encrypted_by_3 = []
+    
+    for msg in messages_by_3:
+        P_matrix = np.array(msg)
+        multiplication = np.dot(K3x3_matrix, P_matrix)
+        encrypted_by_3.append(np_to_int(multiplication))
+    return encrypted_by_3
+
+
+def encr4(messages_by_4):
+    K4x4_matrix = np.array(test_random4x4)
+    encrypted_by_4 = []
+    
+    for msg in messages_by_4:
+        P_matrix = np.array(msg)
+        multiplication = np.dot(K4x4_matrix, P_matrix)
+        encrypted_by_4.append(np_to_int(multiplication))
+    return encrypted_by_4
+
+
+def devide(letters):
+    msg = alphabet_index(letters)
     indecies = []
     for i in msg:
         indecies.append(i[1])
-    messages_by_num = [indecies[0:4], indecies[4:8], indecies[8:12]]  # [[32, 33, 1, 15], [19, 0, 31, 33], [12, 0, 1, 20]]
-    
-    
-    encrypted = []
-    K_matrix = np.array(test_random4x4)
-    
-    for msg_4 in messages_by_num:
-        P_matrix = np.array(msg_4)
-        multiplication = np.dot(K_matrix, P_matrix)
-        encrypted.append(multiplication)
-    return encrypted
+    messages_by_2 = [indecies[0:2], indecies[2:4], indecies[4:6], indecies[6:8], indecies[8:10], indecies[10:12]]
+    messages_by_3 = [indecies[0:3], indecies[3:6], indecies[6:9], indecies[9:12]]
+    messages_by_4 = [indecies[0:4], indecies[4:8], indecies[8:12]]  # [[32, 33, 1, 15], [19, 0, 31, 33], [12, 0, 1, 20]]
+    return encr2(messages_by_2), encr3(messages_by_3), encr4(messages_by_4)
+
 
 
 def ri(a, b):
@@ -54,5 +84,11 @@ def random4x4():
 
 
 text = 'я делаю лабу'
+
+test_random2x2 = [[25, 2], [1, 3]]
+test_random3x3 = [[1, 4, 2], [7, 2, 8], [4, 9, 5]]
 test_random4x4 = [[1, 3, 5, 6], [8, 11, 13, 7], [1, 2, 4, 3], [5, 1, 0, 2]]
-ic(devide4x4(text))
+
+for i in devide(text):
+    print(f'Результат относительно матриц: {i}')
+# ic(devide(text))
